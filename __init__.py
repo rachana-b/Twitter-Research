@@ -23,6 +23,7 @@ import os
 import sys
 import time
 import random
+from datetime import datetime
 
 class TwitterBot:
 
@@ -58,7 +59,7 @@ class TwitterBot:
 
     APP_WEBSITE = "http://frogolandia.50megs.com/"
 
-    RETWEET_ORIGIN = "retweetedthc0.txt"
+    LOGFILE = "log.txt"
 
 
 
@@ -537,10 +538,12 @@ class TwitterBot:
             Find users who have been retweeted and follow them
         """
         result = self.get_timeline()
-        print(result)
+        #print(result)
         
         following = self.get_follows_list()
-        print(following)
+        #print(following)
+
+        f = open(TwitterBot.LOGFILE, "a")
 
         for tweet in result:
             try:
@@ -548,18 +551,22 @@ class TwitterBot:
                         tweet["user"]["id"] not in following):
 
                     self.wait_on_action()
-
                     self.TWITTER_CONNECTION.friendships.create(user_id=tweet["user"]["id_str"], follow=False)
                     following.update(set([tweet["user"]["id_str"]]))
 
                     print("Followed %s" %
                           (tweet["user"]["name"]), file=sys.stdout)
+                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] +  " at " + str(datetime.now())
+                    f.write(rec)
 
                 if ("RT @" in tweet["text"]):
                     handle = tweet["text"].split("RT @")[1].split()[0][:-1]
                     self.wait_on_action()
                     self.TWITTER_CONNECTION.friendships.create(screen_name=handle, follow=False)
+                    
                     print("Followed %s" % handle, file=sys.stdout)
+                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] +  " at " + str(datetime.now())
+                    f.write(rec)
 
             except TwitterHTTPError as api_error:
                 # quit on rate limit errors

@@ -2,7 +2,7 @@ from __init__ import TwitterBot
 
 retweeted_users = []
 
-for i in range(2):
+for i in range(4):
     my_bot = TwitterBot(TwitterBot.CONFIG_FOLDER + "/" + TwitterBot.CONFIG_PRESTRING_THC + str(i) + TwitterBot.DOT_TXT)
     my_bot.sync_follows()                                                          
     retweeted_users = my_bot.follow_retweeted_users()
