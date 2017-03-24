@@ -59,6 +59,7 @@ class TwitterBot:
 
     APP_WEBSITE = "http://frogolandia.50megs.com/"
 
+    PREFIX = "~/Desktop/IW/TwitterFollowBot-master/"
     LOGFILE = "log.txt"
 
 
@@ -533,7 +534,7 @@ class TwitterBot:
             except TwitterHTTPError as api_error:
                 print(api_error)
 
-    def follow_retweeted_users(self):
+    def follow_retweeted_users(self, num):
         """
             Find users who have been retweeted and follow them
         """
@@ -543,7 +544,8 @@ class TwitterBot:
         following = self.get_follows_list()
         #print(following)
 
-        f = open(TwitterBot.LOGFILE, "a")
+        logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num)
+        f = open(logpath, "a")
 
         for tweet in result:
             try:
@@ -565,7 +567,7 @@ class TwitterBot:
                     self.TWITTER_CONNECTION.friendships.create(screen_name=handle, follow=False)
                     
                     print("Followed %s" % handle, file=sys.stdout)
-                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] +  " at " + str(datetime.now())
+                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + handle +  " at " + str(datetime.now()) + "\n"
                     f.write(rec)
 
             except TwitterHTTPError as api_error:
