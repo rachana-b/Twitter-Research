@@ -59,8 +59,8 @@ class TwitterBot:
 
     APP_WEBSITE = "http://frogolandia.50megs.com/"
 
-    PREFIX = "~/Desktop/IW/TwitterFollowBot-master/"
-    LOGFILE = "log.txt"
+    PREFIX = "/Users/Thomas/Desktop/iw/TwitterFollowBot-master/"
+    LOGFILE = "log"
 
 
 
@@ -544,7 +544,7 @@ class TwitterBot:
         following = self.get_follows_list()
         #print(following)
 
-        logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num)
+        logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num) + TwitterBot.DOT_TXT
         f = open(logpath, "a")
 
         for tweet in result:
@@ -558,7 +558,8 @@ class TwitterBot:
 
                     print("Followed %s" %
                           (tweet["user"]["name"]), file=sys.stdout)
-                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] +  " at " + str(datetime.now())
+                    rec = (self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] 
+                        + " at " + str(datetime.now()))
                     f.write(rec)
 
                 if ("RT @" in tweet["text"]):
@@ -567,7 +568,8 @@ class TwitterBot:
                     self.TWITTER_CONNECTION.friendships.create(screen_name=handle, follow=False)
                     
                     print("Followed %s" % handle, file=sys.stdout)
-                    rec = self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + handle +  " at " + str(datetime.now()) + "\n"
+                    rec = (self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + handle + " at " + 
+                        str(datetime.now()) + " retweeted by " + tweet["user"]["screen_name"] + "\n")
                     f.write(rec)
 
             except TwitterHTTPError as api_error:
