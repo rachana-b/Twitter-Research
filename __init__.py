@@ -559,7 +559,7 @@ class TwitterBot:
                     print("Followed %s" %
                           (tweet["user"]["name"]), file=sys.stdout)
                     rec = (self.BOT_CONFIG["TWITTER_HANDLE"] + " followed " + tweet["user"]["screen_name"] 
-                        + " at " + str(datetime.now()))
+                        + " at " + str(datetime.now()) + "\n")
                     f.write(rec)
 
                 if ("RT @" in tweet["text"]):
