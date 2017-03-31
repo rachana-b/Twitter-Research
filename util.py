@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
 arg1, arg2 = 0
-if (len(argv) == 3):
+if (len(sys.argv) == 3):
 	arg1 = int(sys.argv[1])
 	arg2 = int(sys.argv[2])
 else:
@@ -27,7 +27,7 @@ url_post = "/following"
 url = url_pre + handle_pre + "0" + url_post
 
 usr = "thomashikaru"
-pwd = "Clovek79!"
+pwd = "password"
 
 # LOG INTO TWITTER
 browser = webdriver.Firefox()
