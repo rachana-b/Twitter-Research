@@ -1,12 +1,18 @@
-import requests
+#import requests
 import time
 from bs4 import BeautifulSoup
+import selenium
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-browser = webdriver.Chrome()
+# options = webdriver.ChromeOptions()
+# options.add_argument("user-data-dir=/prof")
+# browser = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", chrome_options=options)
 
-# url = u'https://twitter.com/'
+browser = webdriver.Firefox()
+url = "https://twitter.com/springIWthc3/following"
+time.sleep(1)
 
 # r = request.get(url)
 # soup = BeautifulSoup(r.tet, 'html.parser')
@@ -17,15 +23,31 @@ browser = webdriver.Chrome()
 
 
 browser.get(url)
+time.sleep(4)
+
+usr = "thomashikaru"
+pwd = "Clovek79!"
+
+login1 = browser.find_element_by_class_name("js-username-field")
 time.sleep(1)
+login2 = browser.find_element_by_class_name("js-password-field")
+time.sleep(1)
+login1.send_keys(usr)
+time.sleep(1)
+login2.send_keys(pwd)
+time.sleep(1)
+browser.find_element_by_css_selector("button.submit.btn.primary-btn").click()
+time.sleep(3)
 
 body = browser.find_element_by_tag_name('body')
-
-for _ in range(5):
+for _ in range(20):
 	body.send_keys(Keys.PAGE_DOWN)
-	time.sleep(0.2)
+	time.sleep(0.3)
 
-tweets = broswer.find_element_by_class_name('tweet-text')
+handles = browser.find_elements_by_class_name('u-linkComplex-target')
+tweets = browser.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
 
-for tweet in tweets:
-	print(tweet.text)
+for i in range(len(tweets)):
+	print (handles[i].text + "\t\t" + tweets[i].text)
+
+
