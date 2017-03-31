@@ -40,14 +40,15 @@ browser.find_element_by_css_selector("button.submit.btn.primary-btn").click()
 time.sleep(3)
 
 body = browser.find_element_by_tag_name('body')
-for _ in range(20):
+for _ in range(40):
 	body.send_keys(Keys.PAGE_DOWN)
 	time.sleep(0.3)
 
-handles = browser.find_elements_by_class_name('u-linkComplex-target')
+handles = browser.find_elements_by_class_name('ProfileCard-screenname')
 tweets = browser.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
 
 for i in range(len(tweets)):
-	print (handles[i].text + "\t\t" + tweets[i].text)
+	res = "%-20s %s" % (handles[i].text, tweets[i].text)
+	print (res.encode('utf-8', 'ignore'))
 
 
