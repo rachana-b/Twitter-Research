@@ -15,7 +15,7 @@ else:
 	print ("Usage: python follow_recommended.py [botnum]")
 	exit()
 
-url = "https://twitter.com/who_to_follow/suggestions"
+url = "https://twitter.com"
 usr = "springIWthc"
 pwd = "louisasimpson"
 
@@ -38,14 +38,24 @@ time.sleep(3)
 
 # SCROLL DOWN TO LOAD ENTIRE FEED
 body = browser.find_element_by_tag_name('body')
-for _ in range(4):
+for _ in range(10):
 	body.send_keys(Keys.PAGE_DOWN)
-	time.sleep(0.3)
+	time.sleep(1)
 
-# get the follow buttons and click the first sample_num of them
-buttons = browser.find_elements_by_class_name('user-actions-follow-button.js-follow-btn.follow-button.btn')
+# get the favorite buttons and click a random sample of them
+favorites = browser.find_elements_by_class_name('ProfileTweet-actionButton.js-actionButton.js-actionFavorite')
 i = 0
 while (i < sample_num):
-	buttons[i].click()
+	if (random.random() < 0.5):
+		favorites[i].click()
+		i += 1
 	time.sleep(1.0)
-	i += 1
+
+# get the retweet buttons and click a random sample of them
+retweets = browser.find_elements_by_class_name('ProfileTweet-actionButton.js-actionButton.js-actionRetweet')
+i = 0
+while (i < sample_num):
+	if (random.random() < 0.5):
+		retweets[i].click()
+		i += 1
+	time.sleep(1.0)

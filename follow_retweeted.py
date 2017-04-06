@@ -11,13 +11,6 @@ else:
 	my_bot.sync_follows()                                                          
 	retweeted_users = my_bot.follow_retweeted_users(i)
 
-#r = open(TwitterBot.RETWEET_ORIGIN, "a")
-
-#record who has been followed
-#r.write("\n".join([str(i) for i in retweeted_users]))
-#r.write("\n")
-
-
 
 
 

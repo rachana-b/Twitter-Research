@@ -7,33 +7,32 @@
 
 import time
 import sys
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import selenium
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-arg1, arg2 = 0
-if (len(sys.argv) == 3):
-	arg1 = int(sys.argv[1])
-	arg2 = int(sys.argv[2])
+arg1 = "0"
+if (len(sys.argv) == 2):
+	arg1 = sys.argv[1]
 else:
-	print ("Usage: python util.py [start botnum] [end botnum]")
-	return
+	print ("Usage: python util.py [botnum]")
+	exit()
 
 url_pre = "https://twitter.com/"
 handle_pre = "springIWthc"
 url_post = "/following"
-url = url_pre + handle_pre + "0" + url_post
+url = url_pre + handle_pre + arg1 + url_post
 
 usr = "thomashikaru"
-pwd = "password"
+pwd = "Clovek79!"
 
 # LOG INTO TWITTER
 browser = webdriver.Firefox()
 time.sleep(1)
 browser.get(url)
-time.sleep(4)
+time.sleep(2)
 login1 = browser.find_element_by_class_name("js-username-field")
 time.sleep(1)
 login2 = browser.find_element_by_class_name("js-password-field")
@@ -46,25 +45,24 @@ browser.find_element_by_css_selector("button.submit.btn.primary-btn").click()
 time.sleep(3)
 
 
-for num in range(arg1, arg2+1):
-	# LOAD THE FOLLOWERS PAGE
-	url = url_pre + handle_pre + str(num) + url_post
-	browser.get(url)
+# LOAD THE FOLLOWERS PAGE
+# url = url_pre + handle_pre + arg1 + url_post
+# browser.get(url)
 
-	# SCROLL DOWN TO LOAD ENTIRE FEED
-	body = browser.find_element_by_tag_name('body')
-	for _ in range(100):
-		body.send_keys(Keys.PAGE_DOWN)
-		time.sleep(0.3)
+# SCROLL DOWN TO LOAD ENTIRE FEED
+body = browser.find_element_by_tag_name('body')
+for _ in range(100):
+	body.send_keys(Keys.PAGE_DOWN)
+	time.sleep(0.3)
 
-	# FIND THE USER HANDLES AND BRIEF BIOS
-	handles = browser.find_elements_by_class_name('ProfileCard-screenname')
-	tweets = browser.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
+# FIND THE USER HANDLES AND BRIEF BIOS
+handles = browser.find_elements_by_class_name('ProfileCard-screenname')
+tweets = browser.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
 
-	print ("BOT %d FOLLOWER LIST AND BIOS" % (num,))
-	print ("=======================================================================")
-	for i in range(len(tweets)):
-		res = "%-20s %s" % (handles[i].text, tweets[i].text)
-		print (res.encode('utf-8', 'ignore'))
+print ("BOT %s FOLLOWER LIST AND BIOS" % (arg1,))
+print ("=======================================================================")
+for i in range(len(tweets)):
+	res = "%-20s %s" % (handles[i].text, tweets[i].text)
+	print (res.encode('utf-8', 'ignore'))
 
 
