@@ -1,16 +1,10 @@
 # Scrapes a twitter page containing the list of followees of an account
 # Modify the usr and pwd fields below with your credentials
-# Takes two command line arguments first and last: the number of the first bot and number of last bot
-# assumes that the bots have handles starting with handle_pre (see below) followed by a number
-# between first and last
-# python util.py 0 5 will scrape information for bots springIWthclark0, ..., springIWthclark5
 
 import time
 import sys
-#from bs4 import BeautifulSoup
 import selenium
 from selenium import webdriver
-#from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
 arg1 = "0"

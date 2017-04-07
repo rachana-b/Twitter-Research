@@ -15,7 +15,7 @@ else:
 	print ("Usage: python follow_recommended.py [botnum]")
 	exit()
 
-url = "https://twitter.com"
+url = "https://twitter.com/home"
 usr = "springIWthc"
 pwd = "louisasimpson"
 
@@ -57,5 +57,8 @@ i = 0
 while (i < sample_num):
 	if (random.random() < 0.5):
 		retweets[i].click()
+		time.sleep(1.0)
+		button = browser.find_element_by_class_name('btn.primary-btn.retweet-action')
+		button.click()
 		i += 1
 	time.sleep(1.0)
