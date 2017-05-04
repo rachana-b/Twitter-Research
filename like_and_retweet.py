@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import random
 
-sample_num = 15
+sample_num = 25
 
 num = "0"
 if (len(sys.argv) == 2):
@@ -51,19 +51,14 @@ fav_class_name = 'ProfileTweet-actionButton.js-actionButton.js-actionFavorite'
 # get the favorite buttons and click a random sample of them
 favorites = browser.find_elements_by_class_name(fav_class_name)
 print(len(favorites))
-i = 0
-c = 0
-while ((i < sample_num) and (c < len(favorites))):
-	if (random.random() < 0.5):
-		browser.execute_script("return arguments[0].scrollIntoView();", favorites[c])
-		try :
-			favorites[c].click()
-			print("Like Button Clicked")
-			i += 1
-		except :
-			print("Element Not Visible")
+for c in range(0, min(len(favorites), sample_num)):
+	#browser.execute_script("arguments[0].scrollIntoView();", favorites[c])
+	if favorites[c].is_displayed():
+		favorites[c].click()
+		print("%s: Like Button Clicked" % (usr+num,))
+	else:
+		print("%s: Element Not Visible" % (usr+num,))
 	time.sleep(1.0)
-	c += 1
 
 # get the retweet buttons and click a random sample of them
 # retweets = browser.find_elements_by_class_name('ProfileTweet-actionButton.js-actionButton.js-actionRetweet')
