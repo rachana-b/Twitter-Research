@@ -41,11 +41,12 @@ Engage in liking and retweeting activity to give data points to Twitter's algori
 You can scrape the followee bios using the util script:
     
     python util.py [botnum]
+    
 
 
 ## Generating graphs for the bots in experiment 1
 
-We use networkx, graphviz, and dot to visualize the Follow Forests of the bots in experiment 1. Run the following, where inputfile is one of the log files from experiment 1. The outputfile should have the .dot extension.
+We use networkx, graphviz, and dot to visualize the Follow Forests of the bots in experiment 1. Run the following, where inputfile is one of the log files from experiment 1. The outputfile should have the .dot extension:
 
    python grapher.py [inputfile] [outputfile]
 
