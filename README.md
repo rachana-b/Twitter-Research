@@ -10,9 +10,20 @@ python follow_retweeted.py [botnum]
 
 Do it for all the bots:
 ```
-./exp1.sh
+./exp2.sh
 ```
 
+
+## Liking random posts in the newsfeed using Selenium
+
+```
+python like_and_retweet.py [botnum]
+```
+
+Do it for all:
+```
+./like.sh
+```
 
 
 ## Following new users based on Twitter's recommendations
