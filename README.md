@@ -1,5 +1,6 @@
-# springIW
+# Twitter-Research
 
+This repository was originally forked from Thomas Clark's repository for his spring IW with Professor Arvind Narayanan.
 
 ## Following new users based on retweets
 
@@ -7,6 +8,7 @@ You can follow new users using the follow_retweeted script:
 ```
 python follow_retweeted.py [botnum]
 ```
+Make sure to edit handle, username, password, etc. in the ```__init__.py``` file.
 
 Do it for all the bots:
 ```

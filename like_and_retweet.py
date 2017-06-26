@@ -12,7 +12,7 @@ num = "0"
 if (len(sys.argv) == 2):
 	num = sys.argv[1]
 else:
-	print ("Usage: python follow_recommended.py [botnum]")
+	print ("Usage: python like_and_retweet.py [botnum]")
 	exit()
 
 url = "https://twitter.com/home"

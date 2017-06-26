@@ -24,44 +24,41 @@ import sys
 import time
 import random
 from datetime import datetime
+import credentials
 
 class TwitterBot:
 
-    PASSWORD = "louisasimpson"
+    PASSWORD = credentials.PASSWORD
+    EMAIL_PRESTRING_RB = credentials.EMAIL_PRESTRING_RB
+    EMAIL_POSTSTRING = credentials.EMAIL_POSTSTRING
+    
+    # Format for the Twitter HANDLE
+    #HANDLE_BL = "springIWbl"
+    #HANDLE_THC = "springIWthc"
+    HANDLE_PRESTRING = "summerRB" 
 
-    EMAIL_PRESTRING_BL = "blam413+"
-    EMAIL_PRESTRING_THC = "thcspringiw+"
-    EMAIL_POSTSTRING = "@gmail.com"
-
-    HANDLE_BL = "springIWbl"
-    HANDLE_THC = "springIWthc" 
-
-    FULL_NAMES = ["A. A.", "A. B.", "A. C.", "A. D.", "A. E."]
+    # List of bot USERNAMES, not HANDLE
+    #FULL_NAMES = ["A. A.", "A. B.", "A. C.", "A. D.", "A. E."]
+    FULL_NAMES = ["summerRB00"]
 
     CONFIG_FOLDER = "configs"
 
-    CONFIG_PRESTRING_BL = "configbl"
-    CONFIG_PRESTRING_THC = "configthc"
+    CONFIG_PRESTRING = "config"
 
-    ALREADY_FOLLOWED_FILE_BL = "already-followedbl"
-    ALREADY_FOLLOWED_FILE_THC = "already-followedthc"
+    ALREADY_FOLLOWED_FILE = "already-followed"
 
-    FOLLOWERS_Bl = "followersbl"
-    FOLLOWERS_THC = "followersthc"
+    FOLLOWERS = "followers"
 
-    FOLLOWS_BL = "followingbl"
-    FOLLOWS_THC = "followingthc"
+    FOLLOWS = "following"
 
     DOT_TXT = ".txt"
 
-    APP_NAME_BL = "springiwbl"
-    APP_NAME_THC = "springiwthc"
+    APP_NAME_BL = "summerRB"
 
     APP_WEBSITE = "http://frogolandia.50megs.com/"
 
-    PREFIX = "/Users/Thomas/Desktop/iw/TwitterFollowBot-master/"
+    PREFIX = "/vagrant/"
     LOGFILE = "log"
-
 
 
 #remember to make cache files for all the bots. go into config and touch them 
@@ -110,6 +107,7 @@ class TwitterBot:
         return wait_time
 
     def bot_setup(self, config_file="config.txt"):
+    #def bot_setup(self, config_file):
         """
             Reads in the bot configuration file and sets up the bot.
 
@@ -117,7 +115,6 @@ class TwitterBot:
 
             If you want to modify the bot configuration, edit your config.txt.
         """
-
         with open(config_file, "r") as in_file:
             for line in in_file:
                 line = line.split(":")
@@ -545,10 +542,12 @@ class TwitterBot:
         #print(following)
 
         logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num) + TwitterBot.DOT_TXT
+        print(logpath)
         f = open(logpath, "a")
 
         for tweet in result:
             try:
+                print(tweet["user"]["screen_name"])
                 if (tweet["user"]["screen_name"] != self.BOT_CONFIG["TWITTER_HANDLE"] and
                         tweet["user"]["id"] not in following):
 
