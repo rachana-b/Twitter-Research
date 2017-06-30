@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 import random
 import credentials
 
-sample_num = 25
+sample_num = 12
 
 num = "0"
 if (len(sys.argv) == 2):
@@ -36,7 +36,7 @@ time.sleep(1)
 LOG = driver.find_elements_by_xpath('//*[@id="login-dialog-dialog"]/div[2]/div[2]/div[2]/form/input[1]')
 LOG[0].click()
 
-# SCROLL DOWN TO LOAD ENTIRE FEED
+# SCROLL TO LOAD ENTIRE FEED
 body = driver.find_element_by_tag_name('body')
 for _ in range(30):
 	body.send_keys(Keys.PAGE_DOWN)
@@ -49,18 +49,20 @@ for _ in range(20):
 # get the favorite buttons and click a random sample of them
 container = driver.find_element_by_id("stream-items-id")
 favorites = container.find_elements_by_css_selector(".ProfileTweet-actionButton.js-actionButton.js-actionFavorite")
-# favorites = driver.find_elements_by_class_name(fav_class_name)
 print(len(favorites))
-for x in range(0, min(len(favorites), sample_num)):
-	#driver.execute_script("arguments[0].scrollIntoView();", favorites[c])
+
+cnt = 0 # only need like counter, since "index" is randomly generated
+while cnt < min(len(favorites), sample_num):
+# for x in range(0, min(len(favorites), sample_num)):
 	c = random.randrange(len(favorites))
 	try:
 		print(favorites[c].text)
 		favorites[c].click()
 		print("%s: Like Button Clicked" % (usr+num,))
+		cnt += 1 # counter only updates if you actually liked something
 	except Exception as e:
 		print(favorites[c].text + " EXCEPTION")
-	time.sleep(1.0)
+	time.sleep(1)
 
 # get the retweet buttons and click a random sample of them
 # retweets = driver.find_elements_by_class_name('ProfileTweet-actionButton.js-actionButton.js-actionRetweet')
@@ -73,3 +75,5 @@ for x in range(0, min(len(favorites), sample_num)):
 # 		button.click()
 # 		i += 1
 # 	time.sleep(1.0)
+
+driver.quit()
