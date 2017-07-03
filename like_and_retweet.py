@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 import random
 import credentials
 
-sample_num = 12
+sample_num = 6
 
 num = "0"
 if (len(sys.argv) == 2):
@@ -38,7 +38,7 @@ LOG[0].click()
 
 # SCROLL TO LOAD ENTIRE FEED
 body = driver.find_element_by_tag_name('body')
-for _ in range(30):
+for _ in range(12):
 	body.send_keys(Keys.PAGE_DOWN)
 	time.sleep(0.5)
 
@@ -65,15 +65,22 @@ while cnt < min(len(favorites), sample_num):
 	time.sleep(1)
 
 # get the retweet buttons and click a random sample of them
-# retweets = driver.find_elements_by_class_name('ProfileTweet-actionButton.js-actionButton.js-actionRetweet')
-# i = 0
-# while (i < sample_num):
-# 	if (random.random() < 0.5):
-# 		retweets[i].click()
-# 		time.sleep(1.0)
-# 		button = driver.find_element_by_class_name('btn.primary-btn.retweet-action')
-# 		button.click()
-# 		i += 1
-# 	time.sleep(1.0)
-
+retweets = container.find_elements_by_css_selector('.ProfileTweet-actionButton.js-actionButton.js-actionRetweet')
+i = 0
+cnt = 0
+while (cnt < sample_num):
+	if (x = random.random() < 0.5):
+		try:
+			retweets[i].click()
+			print(x)
+			time.sleep(1.0)
+			button = retweets[i].find_element_by_xpath('//*[@id="retweet-tweet-dialog-dialog"]/div[2]/form/div[2]/div[3]/button')
+			button.click()
+			cnt += 1
+			print("clicked retweet dialogue")
+		except Exception as e:
+			print(Exception)
+			print(str(i) + " button was " + retweets[i].text)
+	time.sleep(1.0)
+	i += 1
 driver.quit()
