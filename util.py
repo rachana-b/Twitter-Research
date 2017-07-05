@@ -6,6 +6,7 @@ import sys
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import credentials
 
 arg1 = "0"
 if (len(sys.argv) == 2):
@@ -15,43 +16,43 @@ else:
 	exit()
 
 url_pre = "https://twitter.com/"
-handle_pre = "springIWthc"
+handle_pre = "summerRB"
 url_post = "/following"
 url = url_pre + handle_pre + arg1 + url_post
 
-usr = "thomashikaru"
-pwd = "Clovek79!"
+usr = "summerRB"
+pwd = credentials.PASSWORD
 
 # LOG INTO TWITTER
-browser = webdriver.Firefox()
+driver = webdriver.Chrome()
+
 time.sleep(1)
-browser.get(url)
+driver.get('http://www.twitter.com')
 time.sleep(2)
-login1 = browser.find_element_by_class_name("js-username-field")
+login = driver.find_elements_by_xpath('//*[@id="doc"]/div[1]/div/div[1]/div[2]/a[3]')
+login[0].click()
+user = driver.find_elements_by_xpath('//*[@id="login-dialog-dialog"]/div[2]/div[2]/div[2]/form/div[1]/input')
+user[0].send_keys(usr + str(arg1).zfill(2))
+user = driver.find_element_by_xpath('//*[@id="login-dialog-dialog"]/div[2]/div[2]/div[2]/form/div[2]/input')
+user.send_keys(pwd)
 time.sleep(1)
-login2 = browser.find_element_by_class_name("js-password-field")
-time.sleep(1)
-login1.send_keys(usr)
-time.sleep(1)
-login2.send_keys(pwd)
-time.sleep(1)
-browser.find_element_by_css_selector("button.submit.btn.primary-btn").click()
-time.sleep(3)
+LOG = driver.find_elements_by_xpath('//*[@id="login-dialog-dialog"]/div[2]/div[2]/div[2]/form/input[1]')
+LOG[0].click()
 
 
 # LOAD THE FOLLOWERS PAGE
-# url = url_pre + handle_pre + arg1 + url_post
-# browser.get(url)
+url = url_pre + handle_pre + str(arg1).zfill(2) + url_post
+driver.get(url)
 
 # SCROLL DOWN TO LOAD ENTIRE FEED
-body = browser.find_element_by_tag_name('body')
+body = driver.find_element_by_tag_name('body')
 for _ in range(100):
 	body.send_keys(Keys.PAGE_DOWN)
 	time.sleep(0.3)
 
 # FIND THE USER HANDLES AND BRIEF BIOS
-handles = browser.find_elements_by_class_name('ProfileCard-screenname')
-tweets = browser.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
+handles = driver.find_elements_by_class_name('ProfileCard-screenname')
+tweets = driver.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
 
 print ("BOT %s FOLLOWER LIST AND BIOS" % (arg1,))
 print ("=======================================================================")
