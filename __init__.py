@@ -536,21 +536,21 @@ class TwitterBot:
             Find users who have been retweeted and follow them
         """
         result = self.get_timeline()
-        #print(result)
+        print(len(result))
         
         following = self.get_follows_list()
         #print(following)
 
         logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num) + TwitterBot.DOT_TXT
-        print(logpath)
+        # print(logpath)
         f = open(logpath, "a")
 
         for tweet in result:
             try:
                 print(tweet["user"]["screen_name"])
                 if (tweet["user"]["screen_name"] != self.BOT_CONFIG["TWITTER_HANDLE"] and
-                        tweet["user"]["id"] not in following):
-
+                        tweet["user"]["id"] not in following and tweet["user"]["id"] != prev):
+                    # prevents prolific retweeters
                     self.wait_on_action()
                     self.TWITTER_CONNECTION.friendships.create(user_id=tweet["user"]["id_str"], follow=False)
                     following.update(set([tweet["user"]["id_str"]]))
