@@ -7,6 +7,7 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import credentials
+from datetime import datetime
 
 arg1 = "0"
 if (len(sys.argv) == 2):
@@ -18,7 +19,7 @@ else:
 url_pre = "https://twitter.com/"
 handle_pre = "summerRB"
 url_post = "/following"
-url = url_pre + handle_pre + arg1 + url_post
+url = url_pre + arg1 + url_post
 
 usr = "summerRB"
 pwd = credentials.PASSWORD
@@ -54,10 +55,28 @@ for _ in range(100):
 handles = driver.find_elements_by_class_name('ProfileCard-screenname')
 tweets = driver.find_elements_by_css_selector('p.ProfileCard-bio.u-dir')
 
-print ("BOT %s FOLLOWER LIST AND BIOS" % (arg1,))
-print ("=======================================================================")
+logpath = "/Users/Rachana_B/workspace/Twitter-Research/classifications/bios" + arg1 + "_"+str(datetime.now())+".txt" 
+f = open(logpath, "a")
+
+# print ("BOT %s FOLLOWER LIST AND BIOS" % (arg1,))
+# print ("=======================================================================")
+# for i in range(len(tweets)):
+# 	res = "%-20s %s" % (handles[i].text, tweets[i].text)
+# 	print (res.encode('utf-8', 'ignore'))
+
+f.write("BOT %s FOLLOWER LIST AND BIOS" % (arg1,) + "\n")
+f.write("=======================================================================\n")
 for i in range(len(tweets)):
-	res = "%-20s %s" % (handles[i].text, tweets[i].text)
-	print (res.encode('utf-8', 'ignore'))
+    res = None
+    #TODO: REPLACE WITH ML CLASSIFIER
+    if any(word in tweets[i].text.lower() for word in credentials.conservative):
+        res = "c %-20s %s" % (handles[i].text, tweets[i].text)
+    elif any(word in tweets[i].text for word in credentials.liberal):
+        res = "l %-20s %s" % (handles[i].text, tweets[i].text)
+    else:
+        res = "n %-20s %s" % (handles[i].text, tweets[i].text)
+        # driver.find_element_by_tag_name('body').send_keys(Keys.COMAMND + 'w')
+    f.write(res.encode('utf-8', 'ignore'))
+    f.write("\n")
 
-
+driver.quit()

@@ -478,6 +478,27 @@ class TwitterBot:
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
                 print("Unfollowed %d" % (user_id), file=sys.stdout)
 
+    def auto_unfollow_converagance(self, count, num):
+        """
+        Unfollows a specified number of users to stay at converance limit
+        """
+        following = self.get_follows_list()
+
+        logpath = TwitterBot.PREFIX + TwitterBot.LOGFILE + str(num) + TwitterBot.DOT_TXT
+        f = open(logpath, "a")
+        cnt = 0
+        i = 0
+        while cnt < count:
+            r = random.random()
+            if r <0.5:
+                self.wait_on_action()
+                self.TWITTER_CONNECTION.friendships.destroy(user_id=following[i])
+                rec = (self.BOT_CONFIG["TWITTER_HANDLE"] + " unfollowed " + following[i] + " at " + 
+                        str(datetime.now()) + "\n")
+                f.write(rec)
+                cnt += 1
+            i += 1
+
     def auto_mute_following(self):
         """
             Mutes everyone that you are following.
@@ -531,7 +552,7 @@ class TwitterBot:
             except TwitterHTTPError as api_error:
                 print(api_error)
 
-    def follow_retweeted_users(self, num):
+    def follow_retweeted_users(self, num, numTweets):
         """
             Find users who have been retweeted and follow them
         """
@@ -545,7 +566,9 @@ class TwitterBot:
         # print(logpath)
         f = open(logpath, "a")
 
-        for tweet in result:
+        for x in xrange(numTweets)
+        # for tweet in result:
+            tweet = result[x]
             try:
                 print(tweet["user"]["screen_name"])
                 if (tweet["user"]["screen_name"] != self.BOT_CONFIG["TWITTER_HANDLE"] and
