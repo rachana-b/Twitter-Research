@@ -7,6 +7,8 @@ import credentials
 from datetime import datetime
 import numpy as np
 import cPickle
+import re
+from collections import Counter
 
 arg1 = "0"
 if (len(sys.argv) == 2):
@@ -22,6 +24,8 @@ url = url_pre + handle_pre + arg1 + url_post
 
 usr = "summerRB"
 pwd = credentials.PASSWORD
+
+outname = "records" + str(arg1) + ".p"
 
 # LOG INTO TWITTER
 driver = webdriver.Chrome()
@@ -62,41 +66,31 @@ for x in xrange(len(people)):
     features = np.zeros(25)
     i = 0 # index for features
     print "opening person" + str(x)
-    time.sleep(0.5)
+    time.sleep(0.1)
     driver.switch_to.window(driver.window_handles[-1]) # now at user page
     driver.get("http://twitter.com/"+str(people[x][1:]))
     bio = driver.find_element_by_class_name("ProfileHeaderCard-bio")
-    time.sleep(3)
     stream = driver.find_element_by_class_name("stream-items")
     tweets = stream.find_elements_by_class_name("tweet")
-    for kw in credentials.conservative:
-        time.sleep(1)
-        if kw in bio.text.lower():
-            features[i] = 1
-        else:
-            for y in xrange(5):
-                if kw in tweets[y].text.lower():
-                    print tweets[y].text
-                    time.sleep(3)
-                    features[i] = 1
-                    break
-        i += 1
+    tweets = [tweet.text for tweet in tweets]
+    wanted = credentials.conservative + credentials.liberal
 
-    for kw in credentials.liberal:
-        if kw in bio.text.lower():
-            features[i] = 1
-        else:
-            for y in xrange(5):
-                if kw in tweets[y].text.lower():
-                    features[i] = 1
-                    break
-        i += 1
-    records.append(features)
+    # get all the words in the text
+    words = re.findall('\w+', bio.text.lower())
+    for tweet in tweets:
+        words += re.findall('\w+', tweet.lower())
+
+    cnt = Counter()
+    for kw in wanted:
+        cnt[kw] = 0
+    for word in words:
+        if word in wanted:
+            cnt[word] += 1
+
+    records.append(cnt.values())
     print("closed person %d", x)
-    time.sleep(1)
     driver.switch_to.window(driver.window_handles[0])
-    time.sleep(1)
 
 records_arr = np.array(records)
-cPickle.dump(records_arr, open("records0.p","wb"))
+cPickle.dump(records_arr, open(outname,"wb"))
 driver.quit()
