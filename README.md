@@ -1,6 +1,7 @@
 # Twitter-Research
 
-This repository was originally forked from Thomas Clark's repository for his spring IW with Professor Arvind Narayanan.
+This repository contains a library of functions that can be used for research on Twitter, including a method for setting up
+Twitter bots.
 
 ## Following new users based on retweets
 
@@ -48,16 +49,15 @@ You can scrape the followee bios using the util script:
 python util.py [botnum]
 ```
 
+## Collecting news feed content data
 
-
-## Generating graphs for the bots in experiment 1
-
-We use networkx, graphviz, and dot to visualize the Follow Forests of the bots in experiment 1. Run the following, where inputfile is one of the log files from experiment 1. The outputfile should have the .dot extension:
+You can scrape the tweets in the news feed ranked by Best Tweets First using the clasify_nf script:
 ```
-python grapher.py [inputfile] [outputfile]
+python classify_nf.py [botnum]
 ```
 
-Do it for all the bots (won't color the nodes, though):
+## Data analysis of news feed content
+You can calculate the proportions and counts of news feed tweets using the cnlstats script:
 ```
-./generate_graphs.sh
+python cnlstats.py [filenames]
 ```
