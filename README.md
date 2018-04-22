@@ -3,6 +3,13 @@
 This repository contains a library of functions that can be used for research on Twitter, including a method for setting up
 Twitter bots.
 
+## Retweeting tweets based on hashtags
+You can retweet the top tweets for a given hashtag using the bot api with the auto_retweet script:
+```
+python auto_retweet.py [botnum]
+```
+Make sure you have the correct credentials for the bot username and password.
+
 ## Following new users based on retweets
 
 You can follow new users using the follow_retweeted script:
